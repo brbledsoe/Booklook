@@ -1,14 +1,34 @@
 var BookLookApp = function () {
 
-  var data;  
+  var _search = function () {
+    var num = $('#searchISBN').val();
 
-  var newBook = function () {
-    var title = $('.title').val();
-    var auth = $('.auth').val();
-    var desc = $('.desc').val();
-    var img = $('.img').val();
-    var pg = $('.pg').val();
-    var ti = $('.ti').val();
+    var url = 'https://www.googleapis.com/books/v1/volumes?q=' + num;
+
+    return url;
+  }
+  
+  var fetch = function () {
+  $.ajax({
+      method: "GET",
+      url: _search(),
+      dataType: "json",
+      success: function(data) {
+        // console.log(data);
+        _newBook(data);
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+        console.log(textStatus);
+      }
+    }); 
+  };
+
+  var _newBook = function (arg) {
+    var title = arg.items[0].volumeInfo.title;
+    var auth = arg.items[0].volumeInfo.authors[0];
+    var desc = arg.items[0].volumeInfo.description;
+    var img = arg.items[0].volumeInfo.imageLinks.thumbnail;
+    var pg = arg.items[0].volumeInfo.pageCount;
 
     var book = { 
         title: title,
@@ -16,14 +36,12 @@ var BookLookApp = function () {
         desc: desc,
         img: img,
         pg: pg,
-        ti: ti
       }
 
-    return book;
+    _handlebarIt(book);
   }
 
-  var handlebarIt = function () {
-    var book = newBook();
+  var _handlebarIt = function (book) {
 
     var source = $('#result-template').html();
 
@@ -35,31 +53,8 @@ var BookLookApp = function () {
 
   }
 
-  var fetch = function () {
-  $.ajax({
-      method: "GET",
-      url: 'https://www.googleapis.com/books/v1/volumes?q=0439023521',
-      dataType: "json",
-      success: function(data) {
-        console.log(data);
-        data(data);
-      },
-      error: function(jqXHR, textStatus, errorThrown) {
-        console.log(textStatus);
-      }
-    }); 
-  };
-
-  var dat = function (arg) {
-        console.log(arg.items[0].volumeInfo.title);
-  };
-
   return {
-    newBook: newBook,
-    handlebarIt: handlebarIt,
-    fetch: fetch,
-    dat: dat
-   
+    fetch: fetch,  
   }
 
 }
@@ -69,16 +64,7 @@ var app = BookLookApp();
 $('#search-btn').click( function (e) {
   e.preventDefault();
 
-
-  // creates an object so we can handlebar it
-  app.newBook();
-  // now we get it handled!
-  app.handlebarIt();
-  // fetch from google api
   app.fetch();
-
-  app.dat();
- 
 
 });
 
