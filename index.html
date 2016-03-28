@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="node_modules/font-awesome/css/font-awesome.min.css">
+    <script src="node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="node_modules/handlebars/dist/handlebars.min.js"></script>
+  </head>
+  <body>
+
+    <section class="container horizontal-center">
+      <div class="row">
+        <div class="col-md-12">
+          <h2>BookLook&nbsp;<i class="fa fa-eye"></i></h2>
+
+          <div class="book-look col-md-12">
+          </div>
+
+          <form>
+            <label for="exampleInputEmail1">Enter Book Info</label>
+              <div class="form-group">
+                <input type="text" class="title form-control" id="exampleInputPassword1" placeholder="Book Title">
+              </div>
+              <div class="form-group">
+                <input type="text" class="auth form-control" id="exampleInputEmail1" placeholder="Book Author">
+              </div>
+              <div class="form-group">
+                <input type="text" class="desc form-control" id="exampleInputPassword1" placeholder="Book Description">
+              </div>
+              <div class="form-group">
+                <input type="text" class="img form-control" id="exampleInputPassword1" placeholder="Image URL">
+              </div>
+              <div class="form-group">
+                <input type="text" class="pg form-control" id="exampleInputPassword1" placeholder="Number of Pages">
+              </div>
+              <div class="form-group">
+                <input type="text" class="ti form-control" id="exampleInputPassword1" placeholder="Minutes You Read Per Day">
+              </div>
+            <button id="search-btn" class="btn btn-primary">Search</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <script id="result-template" type="text/x-handlebars-template">
+        <p>{{ti}}</p>
+        <h1>{{title}}</h1>
+        <p>{{desc}}</p>
+        <h4>Written by: {{auth}}</h4>
+        <img src="{{img}}">
+    </script>
+
+    <script src="script.js"></script>
+  </body>
+</html>
