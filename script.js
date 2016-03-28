@@ -1,5 +1,7 @@
 var BookLookApp = function () {
 
+  var data;  
+
   var newBook = function () {
     var title = $('.title').val();
     var auth = $('.auth').val();
@@ -16,7 +18,6 @@ var BookLookApp = function () {
         pg: pg,
         ti: ti
       }
-    ;
 
     return book;
   }
@@ -34,9 +35,31 @@ var BookLookApp = function () {
 
   }
 
+  var fetch = function () {
+  $.ajax({
+      method: "GET",
+      url: 'https://www.googleapis.com/books/v1/volumes?q=0439023521',
+      dataType: "json",
+      success: function(data) {
+        console.log(data);
+        data(data);
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+        console.log(textStatus);
+      }
+    }); 
+  };
+
+  var dat = function (arg) {
+        console.log(arg.items[0].volumeInfo.title);
+  };
+
   return {
     newBook: newBook,
-    handlebarIt: handlebarIt
+    handlebarIt: handlebarIt,
+    fetch: fetch,
+    dat: dat
+   
   }
 
 }
@@ -51,6 +74,11 @@ $('#search-btn').click( function (e) {
   app.newBook();
   // now we get it handled!
   app.handlebarIt();
+  // fetch from google api
+  app.fetch();
+
+  app.dat();
+ 
 
 });
 
